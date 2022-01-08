@@ -45,12 +45,27 @@ export const AuthProvider = props => {
             if (isLoggedIn) {
                 const { email } = await magic.user.getMetadata();
                 setUser({ email });
+                // Just for testing purposes
+                const token = await getToken();
+                console.log('checkedInUser token:', token);
             }
         } catch (error) {
 
         }
     }
 
+    /**
+     * Retrieve the Magic Issues bearer token,
+     * It allows user to make authenticated requests.
+     */
+    const getToken = async () => {
+        try {
+            const token = await magic.user.getIdToken();
+            return token;
+        } catch (error) {
+            
+        }
+    }
     useEffect(() => {
         magic = new Magic(MAGIC_PUBLIC_KEY);
         checkLoggedInUser();
